@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+      </Flags>
+      <MainUnit Value="0"/>
+      <Title Value="projectcopy"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1" Active="Default">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPackages>
+    <Units Count="11">
+      <Unit0>
+        <Filename Value="projectcopy.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="projectcopy"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="217"/>
+        <CursorPos X="22" Y="235"/>
+        <UsageCount Value="67"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\sharedunits\utils\enumeratefolders.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="enumeratefolders"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="133"/>
+        <CursorPos X="10" Y="149"/>
+        <UsageCount Value="51"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\sharedunits\general\basetypes.pas"/>
+        <UnitName Value="basetypes"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="13"/>
+        <CursorPos X="56" Y="141"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\sharedunits\utils\stringutils.pas"/>
+        <UnitName Value="stringutils"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="22"/>
+        <CursorPos X="69" Y="8"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\objpas\sysutils\finah.inc"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="16"/>
+        <CursorPos X="10" Y="28"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\objpas\sysutils\fina.inc"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="52"/>
+        <CursorPos X="41" Y="64"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\win32\system.pp"/>
+        <UnitName Value="System"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="28"/>
+        <CursorPos X="2" Y="41"/>
+        <UsageCount Value="8"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\sharedunits\utils\quicksort.pas"/>
+        <UnitName Value="quicksort"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="116"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\sharedunits\utils\quicksortunit.pas"/>
+        <UnitName Value="QuickSortUnit"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="28"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\packages\fcl-base\src\custapp.pp"/>
+        <UnitName Value="CustApp"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="63"/>
+        <CursorPos X="14" Y="77"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="536"/>
+        <CursorPos X="3" Y="550"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit10>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="96" Column="93" TopLine="81"/>
+      </Position1>
+      <Position2>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="24" Column="1" TopLine="15"/>
+      </Position2>
+      <Position3>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="23" Column="22" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="105" Column="29" TopLine="80"/>
+      </Position4>
+      <Position5>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="120" Column="11" TopLine="106"/>
+      </Position5>
+      <Position6>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="95" Column="26" TopLine="82"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\sharedunits\utils\enumeratefolders.pas"/>
+        <Caret Line="170" Column="28" TopLine="150"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\sharedunits\utils\enumeratefolders.pas"/>
+        <Caret Line="174" Column="16" TopLine="150"/>
+      </Position8>
+      <Position9>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="107" Column="31" TopLine="88"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\sharedunits\utils\enumeratefolders.pas"/>
+        <Caret Line="45" Column="5" TopLine="25"/>
+      </Position10>
+      <Position11>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="45" Column="24" TopLine="34"/>
+      </Position11>
+      <Position12>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="213" Column="9" TopLine="191"/>
+      </Position12>
+      <Position13>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="205" Column="40" TopLine="193"/>
+      </Position13>
+      <Position14>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="208" Column="28" TopLine="196"/>
+      </Position14>
+      <Position15>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="27" Column="81" TopLine="16"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\sharedunits\utils\enumeratefolders.pas"/>
+        <Caret Line="40" Column="34" TopLine="29"/>
+      </Position16>
+      <Position17>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="201" Column="28" TopLine="195"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\sharedunits\utils\enumeratefolders.pas"/>
+        <Caret Line="141" Column="22" TopLine="133"/>
+      </Position18>
+      <Position19>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position19>
+      <Position20>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="114" Column="1" TopLine="94"/>
+      </Position20>
+      <Position21>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="117" Column="29" TopLine="96"/>
+      </Position21>
+      <Position22>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="122" Column="1" TopLine="102"/>
+      </Position22>
+      <Position23>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="133" Column="1" TopLine="113"/>
+      </Position23>
+      <Position24>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="195" Column="10" TopLine="175"/>
+      </Position24>
+      <Position25>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="196" Column="39" TopLine="176"/>
+      </Position25>
+      <Position26>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="202" Column="10" TopLine="182"/>
+      </Position26>
+      <Position27>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="208" Column="12" TopLine="188"/>
+      </Position27>
+      <Position28>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="227" Column="10" TopLine="207"/>
+      </Position28>
+      <Position29>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="228" Column="10" TopLine="208"/>
+      </Position29>
+      <Position30>
+        <Filename Value="projectcopy.pas"/>
+        <Caret Line="249" Column="10" TopLine="226"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="10"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="projectcopy"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\sharedunits\utils;..\sharedunits\general"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

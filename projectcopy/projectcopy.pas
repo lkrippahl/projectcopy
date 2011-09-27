@@ -15,6 +15,7 @@ TODO:
   Ignore coments in FPC uses clauses
   Add support for python projects
 
+
 *******************************************************************************}
 program projectcopy;
 
@@ -114,11 +115,14 @@ begin
   for f:=0 to High(FProjects) do
     begin
     tmpfile:=FFilesList.FindFile(FProjects[f]+'.pas');
+    if tmpfile='' then
+      tmpfile:=FFilesList.FindFile(FProjects[f]+'.lpr');
     if tmpfile<>'' then
       begin
       AddFPCUnit(tmpfile);
       AddFile(FProjects[f]);
-      end;
+      end
+    else WriteLn('Warning: ',FProjects[f]+' (.pas or .lpr) not found.');
     end;
   for f:=0 to High(FAddedUnits) do
     AddFile(FAddedUnits[f]);
@@ -144,7 +148,7 @@ begin
       if tmpfile<>'' then
         begin
         AddToArray(units[f],FAddedUnits);
-        AddFPCUnit(PasFile);
+        AddFPCUnit(tmpfile);
         end;
       end;
     end;
@@ -171,11 +175,13 @@ begin
       Delete(tmp,1,Pos('USES',UpperCase(tmp))+3);
       line:=line+tmp;
       Inc(f);
-      while (f<Sl.Count) and (Pos(':',line)<1) do
+      while (f<Sl.Count) and (Pos(';',line)<1) do
         begin
         line:=line+Sl.Strings[f];
         Inc(f);
         end;
+      if Pos(';',line)>0 then Delete(line,Pos(';',line),Length(line));
+      line:=line+',';
       end;
   until (f>=Sl.Count);
   if line<>'' then

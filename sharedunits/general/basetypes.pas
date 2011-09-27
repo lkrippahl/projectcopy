@@ -8,7 +8,8 @@ Purpose:
   Base data types (string arrays, coords, etc) and utility functions.
 Requirements:
 Revisions:
-To do: Comments
+To do:
+  Fix caps on arguments
 *******************************************************************************}
 
 unit basetypes;
@@ -38,19 +39,31 @@ type
   TCoord = array [0..2] of TFloat; //3D coords ou 3D vector
   TCoords = array of TCoord;
   TIntegers = array of Integer;
+  TCardinals = array of Cardinal;
 
   procedure AddToArray(i:Integer; var a:TIntegers); overload;
   procedure AddToArray(s:string; var a:TSimpleStrings); overload;
   procedure AddToArray(c:TCoord; var a:TCoords); overload;
   procedure AddToArray(f:TFLoat; var a:TFloats); overload;
+  procedure AddToArray(c:Cardinal; var a:TCardinals); overload;
+
+  function IndexOf(const i:Integer; const a:TIntegers):Integer;overload;
+  function IndexOf(const C:Cardinal; const A:TCardinals):Integer;overload;
+  function IndexOf(const s:string; const a:TSimpleStrings):Integer;overload;
 
   function Concatenate(Coords1,Coords2:TCoords):TCoords;overload;
   function Concatenate(A1,A2:TSimpleStrings):TSimpleStrings;overload;
 
-  procedure AddUniqueToArray(s:string; var a:TSimpleStrings); overload;
+  procedure AddUniqueToArray(const Elm:string;var Arr:TSimpleStrings);overload;
+  procedure AddUniqueToArray(const Elm:Cardinal;var Arr:TCardinals);overload;
+  procedure AddUniqueToArray(const Elm:Integer;var Arr:TIntegers);overload;
 
-  function IndexOf(const i:Integer; const a:TIntegers):Integer;overload;
-  function IndexOf(const s:string; const a:TSimpleStrings):Integer;overload;
+  procedure AppendToArray(const Suffix:TCoords; var Arr:TCoords);overload;
+  procedure AppendToArray(const Suffix:TSimpleStrings; var Arr:TSimpleStrings);overload;
+  procedure AppendToArray(const Suffix:TCardinals; var Arr:TCardinals);overload;
+  procedure AppendToArray(const Suffix:TIntegers; var Arr:TIntegers);overload;
+
+
   function Distance(c1,c2:TCoord):TFloat;
   function Min(vals:TFLoats):TFLoat;overload;
   function Max(vals:TFLoats):TFLoat;overload;
@@ -98,6 +111,13 @@ begin
   a[High(a)]:=f;
 end;
 
+procedure AddToArray(c:Cardinal; var a:TCardinals); overload;
+
+begin
+  SetLength(a,Length(a)+1);
+  a[High(a)]:=c;
+end;
+
 function Concatenate(Coords1,Coords2:TCoords):TCoords;overload;
 
 var f,len1:Integer;
@@ -124,12 +144,6 @@ begin
     Result[f]:=A2[f-len1];
 end;
 
-procedure AddUniqueToArray(s:string; var a:TSimpleStrings); overload;
-
-begin
-  if IndexOf(s,a)<0 then AddToArray(s,a);
-end;
-
 function IndexOf(const i:Integer; const a:TIntegers):Integer;
 
 begin
@@ -137,6 +151,15 @@ begin
   while (Result>=0) and (a[Result]<>i) do
     Dec(Result);
 end;
+
+function IndexOf(const C:Cardinal; const A:TCardinals):Integer;overload;
+
+begin
+  Result:=High(A);
+  while (Result>=0) and (A[Result]<>C) do
+    Dec(Result);
+end;
+
 
 function IndexOf(const s:string; const a:TSimpleStrings):Integer;
 
@@ -146,6 +169,86 @@ begin
     Dec(Result);
 end;
 
+
+procedure AddUniqueToArray(const Elm:string;var Arr:TSimpleStrings);overload;
+
+begin
+  if IndexOf(Elm,Arr)<0 then
+      AddToArray(Elm,Arr);
+end;
+
+procedure AddUniqueToArray(const Elm:Cardinal;var Arr:TCardinals);overload;
+
+begin
+  if IndexOf(Elm,Arr)<0 then
+      AddToArray(Elm,Arr);
+end;
+
+procedure AddUniqueToArray(const Elm:Integer;var Arr:TIntegers);overload;
+
+begin
+  if IndexOf(Elm,Arr)<0 then
+      AddToArray(Elm,Arr);
+end;
+
+procedure AppendToArray(const Suffix: TCoords; var Arr: TCoords);
+var
+  f,len:Integer;
+
+begin
+  if Suffix<>nil then
+    begin
+      len:=Length(Arr);
+      SetLength(Arr,len+Length(Suffix));
+      for f:=0 to High(Suffix) do
+        Arr[f+len]:=Suffix[f];
+    end;
+end;
+
+procedure AppendToArray(const Suffix:TSimpleStrings; var Arr:TSimpleStrings);overload;
+
+var
+  f,len:Integer;
+
+begin
+  if Suffix<>nil then
+    begin
+      len:=Length(Arr);
+      SetLength(Arr,len+Length(Suffix));
+      for f:=0 to High(Suffix) do
+        Arr[f+len]:=Suffix[f];
+    end;
+end;
+
+procedure AppendToArray(const Suffix:TCardinals; var Arr:TCardinals);overload;
+
+var
+  f,len:Integer;
+
+begin
+  if Suffix<>nil then
+    begin
+      len:=Length(Arr);
+      SetLength(Arr,len+Length(Suffix));
+      for f:=0 to High(Suffix) do
+        Arr[f+len]:=Suffix[f];
+    end;
+end;
+
+procedure AppendToArray(const Suffix:TIntegers; var Arr:TIntegers);overload;
+
+var
+  f,len:Integer;
+
+begin
+  if Suffix<>nil then
+    begin
+      len:=Length(Arr);
+      SetLength(Arr,len+Length(Suffix));
+      for f:=0 to High(Suffix) do
+        Arr[f+len]:=Suffix[f];
+    end;
+end;
 
 function Distance(c1, c2: TCoord): TFloat;
 begin

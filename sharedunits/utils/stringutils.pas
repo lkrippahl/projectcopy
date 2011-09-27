@@ -20,7 +20,22 @@ interface
 uses
   Classes, SysUtils, basetypes;
 
-function SplitString(AString:string;Separator:string):TSimpleStrings;
+
+
+
+function GrabWord(var Text:string;const Sep:string=' '):string;
+  //deletes separator if found at beginning
+  //Returns substring to separator deleting that from Text
+
+function GrabBetween(var Text:string;const Sep1,Sep2:string):string;
+  //returns substring between separators deleting that from Text
+
+function SplitString(Text:string;const Sep:string):TSimpleStrings;overload;
+  //splits using grabword (i.e. skipping repeated separators)
+procedure SplitString(Text:string;Words:TStringList;const Sep:string=' ');overload;
+  //same as above, but adds result to the Words TStringList, which must have been
+  //created by caller
+
 function GetInteger(AString:string;Start,Finish:Integer; out Val:Integer):Boolean;overload;
 function GetInteger(AString:string;Start,Finish:Integer):Integer;overload;
 function GetFloat(AString:string;Start,Finish:Integer; out Val:Double):Boolean;overload;
@@ -39,31 +54,68 @@ function SnipString(var S:string;const Spacer:string):string;
   //cuts S to first spacer, removing spacer, returns part before spacer
   //returns empty string and leaves S if spacer is not found
 function CountInString(const S:string; const C:Char):Integer;
-function CleanString(const S:string; const C:Char):string;
+function CleanString(const S:string; const C:Char):string;overload;
   //returns S minus all instances of C
+function CleanString(const s:string):string;overload;
+  //returns all characters >= space
 function AppendToLength(const S:string; const C:Char; const Len:Integer):string;
   //returns S filled with C until length Len
-
+function FixLineBreaks(s:string):string;
+  //converts to current OS
+function UncasedCompare(S1,S2:string):Boolean;
+  // string comparison indifferent to case
+function AsSimpleStrings(const Sl:TStrings):TSimpleStrings;
+procedure AppendToStringList(const Ss:TSimpleStrings;const Sl:TStrings);
 
 implementation
 
-function SplitString(AString:string;Separator:string):TSimpleStrings;
+function GrabWord(var Text:string;const Sep:string=' '):string;
+//consumes the original string
 
-var
-  p,len:Integer;
+var p:Integer;
 
 begin
+  while Pos(Sep,Text)=1 do
+    Text:=Copy(Text,Length(Sep)+1,Length(Text));
+  p:=Pos(Sep,Text);
+  if p<=0 then
+    begin
+    Result:=Text;
+    Text:='';
+    end
+  else
+    begin
+    Result:=Copy(Text,1,p-1);
+    Text:=Copy(Text,p+Length(Sep),Length(Text));
+    end;
+end;
+
+
+function GrabBetween(var Text:string;const Sep1,Sep2:string):string;
+//consumes the original string, Text
+
+var p1,p2:Integer;
+
+begin
+  p1:=Pos(Sep1,Text);
+  p2:=Pos(Sep2,Text);
+  if p1<p2 then
+    begin
+    Result:=Copy(Text,p1+Length(Sep1),p2-p1-Length(Sep1));
+    Text:=Copy(Text,1,p1-1)+Copy(Text,p2+Length(Sep2),Length(Text));
+    end;
+end;
+
+function SplitString(Text: string; const Sep: string): TSimpleStrings;overload;
+begin
   Result:=nil;
-  len:=Length(Separator)-1;
-  repeat
-    p:=Pos(Separator,AString);
-    if p>0 then
-      begin
-      if p>1 then AddToArray(Copy(AString,1,p-1),Result);
-      Delete(AString,1,p+len);
-      end;
-  until p<1;
-  if AString<>'' then AddToArray(AString,Result);
+  while Text<>'' do
+    AddToArray(GrabWord(Text,Sep),Result);
+end;
+
+procedure SplitString(Text:string;Words:TStringList;const Sep:string=' ');overload;
+begin
+  while Text<>'' do Words.Add(GrabWord(Text,Sep));
 end;
 
 function GetInteger(AString:string;Start,Finish:Integer; out Val:Integer):Boolean;
@@ -251,6 +303,18 @@ begin
   SetLength(Result,count);
 end;
 
+function CleanString(const s:string):string;overload;
+
+var
+  f:Integer;
+
+begin
+  Result:='';
+  for f:=1 to Length(s) do
+    if s[f]>=' ' then Result:=Result+s[f];
+end;
+
+
 function AppendToLength(const S:string; const C:Char; const Len:Integer):string;
 
 var f,lens:Integer;
@@ -263,6 +327,40 @@ begin
     Result[f]:=S[f];
   for f:=lens+1 to Len do
     Result[f]:=C;
+end;
+
+function FixLineBreaks(s:string):string;
+
+var f:Integer;
+
+begin
+  Result:='';
+  for f:=1 to Length(s) do
+    if s[f]=#10 then Result:=Result+LineEnding
+end;
+
+function UncasedCompare(S1,S2:string):Boolean;
+  // string comparison indifferent to case
+begin
+  Result:=UpperCase(s1)=UpperCase(s2);
+end;
+
+function AsSimpleStrings(const Sl:TStrings):TSimpleStrings;
+
+var f:Integer;
+
+begin
+  SetLength(Result,Sl.Count);
+  for f:=0 to Sl.Count-1 do
+    Result[f]:=Sl.Strings[f];
+end;
+
+procedure AppendToStringList(const Ss:TSimpleStrings;const Sl:TStrings);
+
+var f:Integer;
+
+begin
+  for f:=0 to High(Ss) do Sl.Add(Ss[f]);
 end;
 
 end.

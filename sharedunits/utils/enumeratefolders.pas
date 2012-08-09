@@ -42,6 +42,8 @@ type
       //returns first instance of filename
       //NOTE: Case sensitive!
       //TODO: wildcards
+    function FileExists(FileWithPath:string):Boolean;
+      //Case sensitive
     procedure ResetList(NewFiles:TSimpleStrings);
   end;
 
@@ -177,6 +179,14 @@ begin
       Result:=FFiles[f];
       Break;
       end;
+end;
+
+function TEFFileTree.FileExists(FileWithPath: string): Boolean;
+begin
+  Result:=FirstIndexOf(FileWithPath,FFiles)>=0;
+  //DEBUG
+  //if Result then writeln('Found: '+FileWithPath)
+  //else writeln('Not Found: '+FileWithPath)
 end;
 
 procedure TEFFileTree.ResetList(NewFiles: TSimpleStrings);

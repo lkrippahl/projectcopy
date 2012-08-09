@@ -21,10 +21,6 @@ interface
 uses
   Classes, SysUtils;
 
-const
-  OCTinyFloat=1e-10;  //for testing zero, differences, etc
-                      //make it 1e6 larger than epsilon for TFloat
-
 type
   TSimpleStrings = array of string;
   {$IFDEF SINGLEPRECISION}
@@ -40,13 +36,23 @@ type
   TCoords = array of TCoord;
   TIntegers = array of Integer;
   TCardinals = array of Cardinal;
+  TBooleans = array of Boolean;
 
   procedure AddToArray(i:Integer; var a:TIntegers); overload;
   procedure AddToArray(s:string; var a:TSimpleStrings); overload;
   procedure AddToArray(c:TCoord; var a:TCoords); overload;
   procedure AddToArray(f:TFLoat; var a:TFloats); overload;
   procedure AddToArray(c:Cardinal; var a:TCardinals); overload;
+  procedure AddToArray(b:Boolean; var a:TBooleans); overload;
 
+  //Warning: removing does not preserve ordering (exchanges with last element)
+  procedure RemoveFromArray(Ix:Integer;var A:TIntegers);overload;
+  procedure RemoveFromArray(Ix:Integer;var A:TCoords);overload;
+  procedure RemoveFromArray(Ix:Integer;var A:TFloats);overload;
+  procedure RemoveFromArray(Ix:Integer;var A:TCardinals);overload;
+  procedure RemoveFromArray(Ix:Integer;var A:TSimpleStrings);overload;
+
+  //Return last index, or -1 if not found
   function IndexOf(const i:Integer; const a:TIntegers):Integer;overload;
   function IndexOf(const C:Cardinal; const A:TCardinals):Integer;overload;
   function IndexOf(const s:string; const a:TSimpleStrings):Integer;overload;
@@ -64,26 +70,49 @@ type
   procedure AppendToArray(const Suffix:TIntegers; var Arr:TIntegers);overload;
 
 
-  function Distance(c1,c2:TCoord):TFloat;
+
   function Min(vals:TFLoats):TFLoat;overload;
   function Max(vals:TFLoats):TFLoat;overload;
   function Min(vals:TMatrix):TFLoat;overload;
   function Max(vals:TMatrix):TFLoat;overload;
+
+  function MinIx(vals:TFLoats):Integer;overload;
+  function MaxIx(vals:TFLoats):Integer;overload;
+
+  function Sum(vals:TFloats):TFloat;overload;
+  function Sum(vals:TIntegers):Integer;overload;
+
+
   function Min(const C1,C2:TCoord):TCoord;overload;
   function Max(const C1,C2:TCoord):TCoord;overload;
   function Coord(X,Y,Z:TFloat):TCoord;
+
   function StringToFloats(S:string):TFloats;
     //converts a string of numbers, separated by white spaces
 
   // Array generation utils
   function FilledInts(Len,Val: Integer): TIntegers;
 
+  function StringToFloat(const S:String): TFloat;
+    //tries comma and point as decimal separator
+
 
 
 const
   NullVector:TCoord=(0,0,0);
 
+  // approx 10x eps, for some safety checks on small numbers
+
+  {$IFDEF SINGLEPRECISION}
+  TinyFloat:TFloat = 1e-6;
+  {$ELSE}
+  TinyFloat:TFloat = 1e-14;
+  {$ENDIF}
+
 implementation
+
+var
+  PointSeparator, CommaSeparator: TFormatSettings;
 
 procedure AddToArray(s:string; var a:TSimpleStrings); overload;
 
@@ -116,6 +145,48 @@ procedure AddToArray(c:Cardinal; var a:TCardinals); overload;
 begin
   SetLength(a,Length(a)+1);
   a[High(a)]:=c;
+end;
+
+procedure AddToArray(b:Boolean; var a:TBooleans); overload;
+
+begin
+  SetLength(a,Length(a)+1);
+  a[High(a)]:=b;
+end;
+
+procedure RemoveFromArray(Ix:Integer;var A:TIntegers);overload;
+
+begin
+  A[Ix]:=A[High(A)];
+  SetLength(A,Length(A)-1);
+end;
+
+procedure RemoveFromArray(Ix:Integer;var A:TFloats);overload;
+
+begin
+  A[Ix]:=A[High(A)];
+  SetLength(A,Length(A)-1);
+end;
+
+procedure RemoveFromArray(Ix:Integer;var A:TCardinals);overload;
+
+begin
+  A[Ix]:=A[High(A)];
+  SetLength(A,Length(A)-1);
+end;
+
+procedure RemoveFromArray(Ix:Integer;var A:TCoords);overload;
+
+begin
+  A[Ix]:=A[High(A)];
+  SetLength(A,Length(A)-1);
+end;
+
+procedure RemoveFromArray(Ix:Integer;var A:TSimpleStrings);overload;
+
+begin
+  A[Ix]:=A[High(A)];
+  SetLength(A,Length(A)-1);
 end;
 
 function Concatenate(Coords1,Coords2:TCoords):TCoords;overload;
@@ -250,10 +321,6 @@ begin
     end;
 end;
 
-function Distance(c1, c2: TCoord): TFloat;
-begin
-  Result:=Sqrt(Sqr(c1[1]-c2[1])+Sqr(c1[2]-c2[2])+Sqr(c1[0]-c2[0]));
-end;
 
 function Min(vals: TFLoats): TFLoat;
 
@@ -330,6 +397,69 @@ begin
   if C1[2]>C2[2] then Result[2]:=C1[2] else Result[2]:=C2[2];
 end;
 
+function MinIx(vals:TFLoats):Integer;overload;
+
+var
+  f:Integer;
+  mi:TFloat;
+
+begin
+  Result:=-1;
+  if vals<>nil then
+    begin
+    Result:=0;
+    mi:=vals[0];
+    for f:=1 to High(vals) do
+      if vals[f]<mi then
+        begin
+        mi:=vals[f];
+        Result:=f;
+        end;
+    end;
+end;
+
+function MaxIx(vals:TFLoats):Integer;overload;
+
+var
+  f:Integer;
+  mi:TFloat;
+
+begin
+  Result:=-1;
+  if vals<>nil then
+    begin
+    Result:=0;
+    mi:=vals[0];
+    for f:=1 to High(vals) do
+      if vals[f]>mi then
+        begin
+        mi:=vals[f];
+        Result:=f;
+        end;
+    end;
+end;
+
+function Sum(vals:TFloats):TFloat;overload;
+
+var f:Integer;
+
+begin
+  Result:=0;
+  for f:=0 to High(vals) do
+    Result:=Result+vals[f];
+end;
+
+function Sum(vals:TIntegers):Integer;overload;
+
+var f:Integer;
+
+begin
+  Result:=0;
+  for f:=0 to High(vals) do
+    Result:=Result+vals[f];
+end;
+
+
 function Coord(X,Y,Z:TFloat):TCoord;
 
 begin
@@ -345,6 +475,12 @@ var f:Integer;
 begin
   SetLength(Result,Len);
   for f:=0 to Len-1 do Result[f]:=Val
+end;
+
+function StringToFloat(const S: String): TFloat;
+begin
+  if Pos('.', S) > 0 then Result := StrToFloat(S,PointSeparator)
+  else Result := StrToFloat(S,CommaSeparator);
 end;
 
 function StringToFloats(S:string):TFloats;
@@ -369,5 +505,18 @@ begin
     end;
 end;
 
+procedure InitializeGlobals;
+
+begin
+  PointSeparator := DefaultFormatSettings;
+  PointSeparator.DecimalSeparator := '.';
+  PointSeparator.ThousandSeparator := '#';
+  CommaSeparator := DefaultFormatSettings;
+  CommaSeparator.DecimalSeparator := ',';
+  CommaSeparator.ThousandSeparator := '#';
+end;
+
+initialization
+  InitializeGlobals;
 end.
 

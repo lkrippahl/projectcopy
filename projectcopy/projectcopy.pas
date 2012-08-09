@@ -93,22 +93,30 @@ var tmp:string;
 
 begin
   tmp:=FFilesList.FindFile(FileName+'.pas');
-  if tmp<>'' then AddToArray(tmp,FAddedFiles);
+  if tmp<>'' then AddToArray(tmp,FAddedFiles)
+  else
+    begin
+    tmp:=FFilesList.FindFile(FileName+'.lpr');
+    if tmp<>'' then AddToArray(tmp,FAddedFiles)
+    end;
+  if tmp='' then Exit;
 
-  tmp:=FFilesList.FindFile(FileName+'.res');
-  if tmp<>'' then AddToArray(tmp,FAddedFiles);
+  tmp:=ChangeFileExt(tmp,'.res');
+  if FFilesList.FileExists(tmp) then
+    AddToArray(tmp,FAddedFiles);
 
-  tmp:=FFilesList.FindFile(FileName+'.lpi');
-  if tmp<>'' then AddToArray(tmp,FAddedFiles);
+  tmp:=ChangeFileExt(tmp,'.lpi');
+  if FFilesList.FileExists(tmp) then
+    AddToArray(tmp,FAddedFiles);
 
-  tmp:=FFilesList.FindFile(FileName+'.lpr');
-  if tmp<>'' then AddToArray(tmp,FAddedFiles);
+  tmp:=ChangeFileExt(tmp,'.lfm');
+  if FFilesList.FileExists(tmp) then
+    AddToArray(tmp,FAddedFiles);
 
-  tmp:=FFilesList.FindFile(FileName+'.lfm');
-  if tmp<>'' then AddToArray(tmp,FAddedFiles);
+  tmp:=ChangeFileExt(tmp,'.ico');
+  if FFilesList.FileExists(tmp) then
+    AddToArray(tmp,FAddedFiles);
 
-  tmp:=FFilesList.FindFile(FileName+'.ico');
-  if tmp<>'' then AddToArray(tmp,FAddedFiles);
 end;
 
 begin
@@ -119,6 +127,7 @@ begin
       tmpfile:=FFilesList.FindFile(FProjects[f]+'.lpr');
     if tmpfile<>'' then
       begin
+      writeln(tmpfile);
       AddFPCUnit(tmpfile);
       AddFile(FProjects[f]);
       end
